@@ -17,20 +17,14 @@ module.exports.getAllUsers = async (req, res, next) => {
    }
 }
 
-
-
-
 module.exports.getOneUser = async (req, res, next) => {
     try {
-        /// userId ---> req.params
-        const {params: {userId}} = req;
-        const user = await User.findByPk(userId);
-        res.status(200).send(user);
+        const {userInstance} = req;
+        res.status(200).send(userInstance);
     } catch(error) {
         next(error);
     }
 }
-
 module.exports.updateUser = async (req, res, next) => {
     try {
         const {body, params: {userId}} = req;
@@ -45,7 +39,6 @@ module.exports.updateUser = async (req, res, next) => {
         next(error);
     }
 }
-
 module.exports.deleteUser = async (req, res, next) => {
     try {
         const {params: {userId}} = req;
@@ -64,16 +57,11 @@ module.exports.deleteUser = async (req, res, next) => {
     }
 }
 
-
-
 module.exports.deleteInstance = async (req, res, next) => {
     try {
-        const {params: {userId}} = req;
-        const user = await User.findByPk(userId);
-        if (user) {
-            const result = await user.destroy();
-        }
-
+        const {userInstance} = req;
+        const result = await userInstance.destroy();
+        res.status(200).send();
     } catch(error) {
         next(error);
     }
