@@ -1,0 +1,11 @@
+POST http://localhost:5000/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Tony",
+    "lastName": "Stark",
+    "email": "iron@man.com",
+    "password": "superiron",
+    "birthday": "1990-09-09",
+    "gender": "male"
+}
