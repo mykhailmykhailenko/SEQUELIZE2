@@ -1,4 +1,5 @@
 const {User} = require('../models');
+const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.getUserInstance = async (req, res, next) => {
     try {
@@ -8,7 +9,7 @@ module.exports.getUserInstance = async (req, res, next) => {
             req.userInstance = user;
             next()
         } else {
-            res.status(404).send({error: 'No user'});
+            throw new NotFoundError ('User not found');
         }
     } catch(error) {
         next(error)
