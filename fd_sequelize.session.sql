@@ -13,3 +13,9 @@ FROM users;
 DELETE FROM users
 WHERE id = 2
 RETURNING *;
+
+/* Pagination */ 
+
+SELECT * FROM tasks
+LIMIT 10
+OFFSET 10;

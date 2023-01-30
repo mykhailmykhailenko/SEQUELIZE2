@@ -14,10 +14,21 @@ module.exports.createTask = async(req, res, next) => {
 }
 
 
+////products?limit=10&offset=15
+/*
+req.query
+{
+    limit: 10,
+    offset: 15
+}
+*/
+
 module.exports.getAllUserTasks = async(req, res, next) => {
     try {
-        const {userInstance} = req;
-        const alltasks = await userInstance.getTasks();
+        const {userInstance, pagination} = req;
+        const alltasks = await userInstance.getTasks({
+           ...pagination
+        });
         res.status(200).send(alltasks);
     } catch(error) {
         next(error)
