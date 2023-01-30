@@ -1,4 +1,4 @@
-const {User} = require('../models');
+const {User, Group} = require('../models');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.createUser = async (req, res, next) => {
@@ -74,6 +74,28 @@ module.exports.deleteInstance = async (req, res, next) => {
         const {userInstance} = req;
         const result = await userInstance.destroy();
         res.status(200).send();
+    } catch(error) {
+        next(error);
+    }
+}
+
+/*
+Написати метод контролера, що повертатиме юзера і всі його групи
+*/
+
+
+module.exports.getUserWithGroups = async (req, res, next) => {
+    try {
+        const {params: {userId}} = req;
+        const userWithGroups = await User.findByPk(userId, {
+            include: {
+                model: Group
+            },
+            attributes: {
+                exclude: ['password']
+            }
+        })
+        res.status(200).send(userWithGroups);
     } catch(error) {
         next(error);
     }
