@@ -63,3 +63,42 @@ module.exports.getGroupWithMembers = async (req, res, next) => {
 3. Видалення юзера з групи.
 .delete('/:groupId/:userId')
 */
+
+module.exports.updateGroup = async(req, res, next) => {
+    try {
+        const {params: {groupId}, body} = req;
+        const updated = await Group.update(body, {
+            where: {
+                id: groupId
+            }
+        });
+        res.status(200).send(updated);
+    } catch(error) {
+        next(error)
+    }
+}
+
+module.exports.deleteGroup = async(req, res, next) => {
+    try {
+        const {params: {groupId}} = req;
+        const deleted = await Group.destroy({
+            where: {
+                id: groupId
+            }
+        });
+        res.status(200).send({});
+    } catch(error) {
+        next(error)
+    }
+}
+
+module.exports.deleteUserFromGroup = async(req, res, next) => {
+    try {
+        const {params: {groupId}, userInstance} = req;
+        const group = await Group.findByPk(groupId);
+        const result = await group.removeUser(userInstance);
+        res.status(200).send(result);
+    } catch(error) {
+        next(error)
+    }
+}
